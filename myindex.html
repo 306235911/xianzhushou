@@ -8,7 +8,8 @@
 	<div class="row clearfix">
 		{% for item in items %}
 		<div class="col-md-4 column">
-			<button class="btn btn-link" type="button"><img alt="140x140" src="{{item.img1|safe}} " style="width:250px;height:250px;" /></button>
+			<!--<button class="btn btn-link" type="button"><img alt="140x140" src="{{item.img1|safe}} " style="width:250px;height:250px;" /></button>-->
+			<a href={{url_for('.item',itemName = item.name)}}><img alt="140x140" src="{{item.img1|safe}} " style="width:100%;height:100%;" /></a>
 			<h3>
 				{{item.name}}
 			</h3>

@@ -80,11 +80,11 @@ def index():
     items = Item.query.all()
     return render_template('myindex.html', items = items)
     # return render_template('oneitem.html')
-# 
-# @app.route('/item/<itemName>')
-# def item(itemName):
-#     item = Item.query.filter_by(itemName = itemName).first()
-#     return render_template('item.html' , itemName = itemName)
+
+@app.route('/item/<itemName>')
+def item(itemName):
+    item = Item.query.filter_by(name = itemName).first()
+    return render_template('item.html' , itemName = item)
 
 
 if __name__ == '__main__':
