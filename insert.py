@@ -13,15 +13,15 @@ class Mysql:
         except MySQldb.Error , e:
             print "连接数据库错误，原因 %d : %s" % (e.args[0] ,e.args[1])
             
-    def insertData(self, identity , name, detal, img1 , img2 , img3):
+    def insertData(self, identity , name, detal, img1 , img2 , img3 , title):
         # sql = "INSERT INTO book VALUES (%d,%s,%s,%s,%s)" % (identity , name , info , score , num)
-        sql = "INSERT INTO item VALUES " + "(%s,%s,%s,%s,%s,%s)"
+        sql = "INSERT INTO item VALUES " + "(%s,%s,%s,%s,%s,%s,%s)"
         try:
             self.db.set_character_set('utf8')
             # result = self.cur.execute(sql)
             
             # 比起 "INSERT INTO table VALUES(%s,%s,%s)" % (a,b,c) 的用法，更常用的为下面的表达
-            result = self.cur.execute(sql,(identity , name , detal , img1 , img2 , img3))
+            result = self.cur.execute(sql,(identity , name , detal , img1 , img2 , img3 , title))
             # insert_id = self.db.insert_id()
             self.db.commit()
             if result:
@@ -66,8 +66,9 @@ class Mysql:
         img1 = raw_input('img1\n')
         img2 = raw_input('img2\n')
         img3 = raw_input('img3\n')
+        title = raw_input('title\n')
         
-        self.insertData(identity , name , detal , img1 , img2 , img3)
+        self.insertData(identity , name , detal , img1 , img2 , img3 , title)
         
 hah = Mysql()
 hah.main()
