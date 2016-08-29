@@ -37,6 +37,7 @@ bootstrap = Bootstrap(app)
 moment = Moment(app)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+manager.add_command('db' , MigrateCommand)
 # 
 # 
 # 
@@ -55,7 +56,23 @@ class Item(db.Model):
     def __repr__(self):
         return '<Item %r>' % self.name
 
-
+class Role(db.Model):
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer , primary_key=True)
+    name = db.Column(db.String(64) , unique=True)
+    users = db.relationship('User' , backref='role')
+    
+    def __rerp__(self):
+        return '<Role %r>' % self.name
+    
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer , primary_key = True)
+    username = db.Column(db.String(64) ,unique=True , index = True)
+    role_id = db.Column(db.Integer , db.ForeignKey('roles.id'))
+    
+    def __repr__(self):
+        return '<User %r>' % self.username
 
 
 # # 输入姓名的表单
