@@ -1,0 +1,25 @@
+{% extends "mybase.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}闲{% endblock %}
+
+{% block page_content %}
+<div class="container">
+	<div class="row clearfix">
+		{% for item in items %}
+		<div class="col-md-4 column">
+			<!--<button class="btn btn-link" type="button"><img alt="140x140" src="{{item.img1|safe}} " style="width:250px;height:250px;" /></button>-->
+			<div style="width:200px;height:200px;">
+			<a href={{url_for('.item',itemName = item.name)}}><img alt="140x140" src="{{item.img1|safe}} " style="width:100%;" /></a>
+			</div>
+			<h3>
+				{{item.name}}
+			</h3>
+			<p>
+				 {{item.detal}}
+			</p>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}
