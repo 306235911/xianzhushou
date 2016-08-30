@@ -1,0 +1,7 @@
+<p>亲爱的 {{ user.username }},</p>
+<p>验证你的邮箱 <a href="{{ url_for('auth.change_email', token=token, _external=True) }}">按这里</a>.</p>
+<p>或者你也可以复制下面的链接到你的浏览器地址栏中:</p>
+<p>{{ url_for('auth.change_email', token=token, _external=True) }}</p>
+<p>来自,</p>
+<p>闲</p>
+<p><small>Tips：本邮件不可回复</small></p>
