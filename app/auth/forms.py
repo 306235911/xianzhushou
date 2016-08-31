@@ -17,7 +17,7 @@ class RegistrationForm(Form):
     email = StringField(u'电子邮箱', validators=[Required(), Length(1, 64),
                                            Email()])
     username = StringField(u'用户名', validators=[
-        Required(), Length(1, 64), Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,
+        Required(), Length(1, 64), Regexp('^[A-Za-z\u4e00-\u9fa5][a-zA-Z0-9_\u4e00-\u9fa5]*$', 0,
                                           u'用户名必须是字母, '
                                           u'数字，小数点或下划线')])
     password = PasswordField(u'密码', validators=[

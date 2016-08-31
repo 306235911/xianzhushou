@@ -1,5 +1,6 @@
 {% extends "mybase.html" %}
 <!--{% import "bootstrap/wtf.html" as wtf %}-->
+{% import "_macros.html" as macros %}
 
 {% block title %}闲{% endblock %}
 
@@ -22,4 +23,10 @@
 		{% endfor %}
 	</div>
 </div>
+
+{% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, '.index') }}
+</div>
+{% endif %}
 {% endblock %}
