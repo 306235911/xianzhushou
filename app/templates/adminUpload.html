@@ -1,0 +1,14 @@
+{% extends "mybase.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}上传{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>上传新物品</h1>
+<h3><a href="{{ url_for('static', filename='upload.html') }}">上传照片(请在新网页标签中打开)</h3>
+</div>
+<div class="col-md-4">
+    {{ wtf.quick_form(form) }}
+</div>
+{% endblock %}

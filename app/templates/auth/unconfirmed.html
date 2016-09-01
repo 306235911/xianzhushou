@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}验证账号{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>
+        亲爱的, {{ current_user.username }}!
+    </h1>
+    <h3>你的账号还没通过验证呢</h3>
+    <p>
+        在你进入下一步之前你需要先验证你的邮箱哟
+        检查一下你的收件箱，里面应该有一封验证的邮件躺在里面啦
+    </p>
+    <p>
+        需要新的验证链接吗
+        <a href="{{ url_for('auth.resend_confirmation') }}">点这里</a>
+    </p>
+</div>
+{% endblock %}

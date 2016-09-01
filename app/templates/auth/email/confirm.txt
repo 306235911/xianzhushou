@@ -1,0 +1,13 @@
+亲爱的用户 {{ user.username }},
+
+欢迎来到闲!
+
+为了验证你的账号，请点击以下链接:
+
+{{ url_for('auth.confirm', token=token, _external=True) }}
+
+来自,
+
+闲团队
+
+Tips: 该邮件回复无用

@@ -1,0 +1,10 @@
+亲爱的 {{ user.username }},
+
+验证你的邮箱按这里：
+
+{{ url_for('auth.change_email', token=token, _external=True) }}
+
+来自,
+闲
+
+Tips：本邮件不可回复
