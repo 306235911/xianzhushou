@@ -51,13 +51,15 @@ class EditProfileAdminForm(Form):
 
 
 class ItemForm(Form):
-    name = StringField(u'物品名称', validators=[Required(), Length(1, 64), Regexp('^[A-Za-z\u4e00-\u9fa5][a-zA-Z0-9_\u4e00-\u9fa5]*$', 0,u'物品名必须是中文，字母, 数字，小数点或下划线')])
-    detal = StringField(u'描述', validators=[
-        Required(), Length(1, 140), Regexp('^[A-Za-z\u4e00-\u9fa5][a-zA-Z0-9_\u4e00-\u9fa5]*$', 0,
-                                          u'描述必须是中文，字母, '
-                                          u'数字，小数点或下划线')])
+    # name = StringField(u'物品名称', validators=[Required(), Length(1, 64), Regexp('^[A-Za-z\u4e00-\u9fa5][a-zA-Z0-9_\u4e00-\u9fa5]*$', 0,u'物品名必须是中文，字母, 数字，小数点或下划线')])
+    name = StringField(u'物品名称', validators=[Required(), Length(1, 64)])
+    detal = StringField(u'描述', validators=[Required(), Length(1, 140)])
+    # detal = StringField(u'描述', validators=[
+    #     Required(), Length(1, 140)]), Regexp('^[A-Za-z\u4e00-\u9fa5][a-zA-Z0-9_\u4e00-\u9fa5]*$', 0,
+    #                                       u'描述必须是中文，字母, '
+    #                                       u'数字，小数点或下划线')])
     img1 = StringField(u'图片链接1', validators=[Required(), Length(1, 70)])
     img2 = StringField(u'图片链接2', validators=[Required(), Length(0, 70)])
     img3 = StringField(u'图片链接3', validators=[Required(), Length(0, 70)])
-    title = StringField(u'类别', validators=[Required(), Length(1, 20), Regexp('^[A-Za-z\u4e00-\u9fa5][a-zA-Z0-9_\u4e00-\u9fa5]*$', 0,u'类别必须是中文，字母, 数字，小数点或下划线')])
+    title = StringField(u'类别', validators=[Required(), Length(1, 20)])
     submit = SubmitField(u'提交')

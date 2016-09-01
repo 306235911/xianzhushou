@@ -114,17 +114,18 @@ def adminUpload():
                     detal=form.detal.data,
                     img1=form.img1.data,
                     img2=form.img2.data,
-                    img3=form.img3.data)
+                    img3=form.img3.data,
+                    title=form.title.data)
         db.session.add(item)
         db.session.commit()
         flash(u'已发布新物品')
-        return redirect(url_for('/'))
+        return redirect(url_for('.adminUpload', form=form))
     return render_template('adminUpload.html', form=form)
 
-@main.route('/upload', methods=['GET', 'POST'])
-@login_required
-@admin_required
-def upload():
-    if request.method == 'POST':
-        url1 = request.form.get('linkurl','')
-    return current_app.send_static_file('upload.html')
+# @main.route('/upload', methods=['GET', 'POST'])
+# @login_required
+# @admin_required
+# def upload():
+#     if request.method == 'POST':
+#         url1 = request.form.get('linkurl','')
+#     return current_app.send_static_file('upload.html')
