@@ -1,0 +1,36 @@
+{% extends "mybase.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}购买{% endblock %}
+
+{% block page_content %}
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<h2>
+				确认订单
+			</h2>
+		</div>
+	</div>
+	<div class="row clearfix">
+		<div class="col-md-2 column">
+			<img alt="140x140" src="{{item.img1|safe}} " style="width:50%;height:50%;" />
+		</div>
+		<div class="col-md-10 column">
+			<h5>
+				{{item.name}}
+			</h5>
+			<p>
+				{{item.detal}}
+			</p>
+		</div>
+	</div>
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<p>
+				 在确认订单后请于 <strong>周三下午五点到五点半</strong> 于一栋楼下眼镜店对面仓库完成交易
+			</p> <button type="button" class="btn btn-success btn-lg">确认下单</button>
+		</div>
+	</div>
+</div>
+{% endblock %}

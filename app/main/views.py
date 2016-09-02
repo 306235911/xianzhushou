@@ -54,10 +54,23 @@ def title(titleName):
     title = Item.query.filter_by(title = titleName).all()
     return render_template('myindex.html' , items = title)
 
-@main.route('buy/<itemName>')
-def buy(titleName):
-    item = Item.query.filter_by(title = titleName).first()
-    return render_template('myindex.html' , items = title)
+@main.route('/buy/<itemName>')
+@login_required
+def buy(itemName):
+    item = Item.query.filter_by(name = itemName).first()
+    return render_template('buying.html' , item = item)
+
+@main.route('/buying/<itemName>')
+@login_required
+def buying(itemName):
+    # 添加到数据库
+    if Item.query.filter_by(buy = itemName.buy).first():
+        flash(u'交易成功')
+        return redirect(url_for('.index'))
+    else:
+        flash(u'系统出错')
+        return redirect(url_for('.buy' , itemName = itemName))
+    return redirect(url_for('.buying' , itemName = itemName))
 
 @main.route('/user/<username>')
 def user(username):
