@@ -63,14 +63,29 @@ def buy(itemName):
 @main.route('/buying/<itemName>')
 @login_required
 def buying(itemName):
-    # 添加到数据库
-    if Item.query.filter_by(buy = itemName.buy).first():
-        flash(u'交易成功')
-        return redirect(url_for('.index'))
-    else:
-        flash(u'系统出错')
-        return redirect(url_for('.buy' , itemName = itemName))
+    # if Item.query.filter_by(buy = itemName.buy).first():
+    #     flash(u'交易成功')
+    #     return redirect(url_for('.index'))
+    # else:
+    #     flash(u'系统出错')
+    #     return redirect(url_for('.buy' , itemName = itemName))
     return redirect(url_for('.buying' , itemName = itemName))
+
+@main.route('/bought/<itemName>')
+@login_required
+def bought(itemName):
+    item = Item.query.filter_by(name=itemName).first_or_404()
+    item.buy = 'buying'
+    db.session.add(item)
+    db.session.commit()
+    flash(u'确认订单成功')
+    return redirect(url_for('.index'))
+    # if Item.query.filter_by(buy = itemName.buy).first():
+    #     flash(u'交易成功')
+    #     return redirect(url_for('.index'))
+    # else:
+    #     flash(u'系统出错')
+    #     return redirect(url_for('.buy' , itemName = itemName))
 
 @main.route('/user/<username>')
 def user(username):
@@ -138,6 +153,43 @@ def adminUpload():
         flash(u'已发布新物品')
         return redirect(url_for('.adminUpload', form=form))
     return render_template('adminUpload.html', form=form)
+
+
+@main.route('/admin')
+@login_required
+@admin_required
+def admin():
+    return render_template('admin.html')
+
+@main.route('/finish')
+@login_required
+@admin_required
+def finish():
+    item = Item.query.all()
+    return render_template('finish.html' , items = item)
+
+@main.route('/delete/<itemName>')
+@login_required
+@admin_required
+def delete(itemName):
+    item = Item.query.filter_by(name = itemName).first_or_404()
+    items = Item.query.all()
+    db.session.delete(item)
+    db.session.commit()
+    flash(u'交易完成！')
+    return render_template('finish.html' , items = items)
+
+@main.route('/cancel/<itemName>')
+@login_required
+@admin_required
+def cancel(itemName):
+    item = Item.query.filter_by(name = itemName).first_or_404()
+    items = Item.query.all()
+    item.buy = 'sell'
+    db.session.add(item)
+    db.session.commit()
+    flash(u'取消订单成功')
+    return render_template('finish.html' , items = items)
 
 # @main.route('/upload', methods=['GET', 'POST'])
 # @login_required

@@ -17,9 +17,9 @@
 			<img alt="140x140" src="{{item.img1|safe}} " style="width:50%;height:50%;" />
 		</div>
 		<div class="col-md-10 column">
-			<h5>
+			<h4>
 				{{item.name}}
-			</h5>
+			</h4>
 			<p>
 				{{item.detal}}
 			</p>
@@ -28,8 +28,27 @@
 	<div class="row clearfix">
 		<div class="col-md-12 column">
 			<p>
-				 在确认订单后请于 <strong>周三下午五点到五点半</strong> 于一栋楼下眼镜店对面仓库完成交易
-			</p> <button type="button" class="btn btn-success btn-lg">确认下单</button>
+				 <h3>在确认订单后请于 <strong>周三下午五点到五点半</strong> 于一栋楼下眼镜店对面仓库完成交易</h3><br><br>
+				 <h4>联系我们：</h4>
+				 <br>
+					<div class="container">
+						<div class="row clearfix">
+							<div class="col-md-6 column">
+								<h5>
+									电话号码：
+								</h3>
+								<p>
+									 <br><br><br><h3>18826109275</h3>
+								</p>
+							</div>
+							<div class="col-md-6 column">
+								<h5>
+									二维码
+								</h5><img alt="二维码" src="{{ url_for('static', filename='erweima.jpg') }}" style="width:50%;height:50%;"/>
+							</div>
+						</div>
+					</div>
+			</p> <a href={{url_for('.bought',itemName=item.name)}}><button type="button" class="btn btn-success btn-lg">确认下单</button></a>
 		</div>
 	</div>
 </div>

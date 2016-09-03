@@ -1,0 +1,19 @@
+{% extends "mybase.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}控制台{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>选择你要进行的操作</h1>
+</div>
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			 <a href="{{ url_for('main.adminUpload') }}"><button type="button" class="btn btn-lg btn-block btn-info">上传新物品</button></a>
+             <br><br>
+             <a href="{{ url_for('main.finish') }}"><button type="button" class="btn btn-lg btn-block btn-success">完成交易</button></a>
+		</div>
+	</div>
+</div>
+{% endblock %}

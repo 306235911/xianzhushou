@@ -32,6 +32,7 @@ class Item(db.Model):
     img2 = db.Column(db.String(70))
     img3 = db.Column(db.String(70))
     title = db.Column(db.String(20))
+    buy = db.Column(db.String(10), default='sell')
 
     def __repr__(self):
         return '<Item %r>' % self.name
