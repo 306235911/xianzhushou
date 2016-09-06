@@ -1,6 +1,17 @@
 # -*- coding:utf-8 -*-
 import os
+import sae.const
+
 basedir = os.path.abspath(os.path.dirname(__file__))
+
+dbname = sae.const.MYSQL_DB      # 数据库名
+user = sae.const.MYSQL_USER    # 用户名
+password = sae.const.MYSQL_PASS    # 密码
+hostname = sae.const.MYSQL_HOST    # 主库域名（可读写）
+port = int(sae.const.MYSQL_PORT)    # 端口，类型为<type 'str'>，请根据框架要求自行转换为int
+# sae.const.MYSQL_HOST_S  # 从库域名（只读）
+
+url = "mysql://%s:%s@%s:%d/%s" % (user , password , hostname , port , dbname)
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
@@ -21,18 +32,22 @@ class Config:
     
 class DevelopmentConfig(Config):
     DEBUG = True
-    QLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    SQLALCHEMY_DATABASE_URI = (url)
+    #                                 mysql+mysqldb://scott:tiger@localhost/foo
+    # SQLALCHEMY_DATABASE_URI = ('mysql+mysqldb://43noz01w30:hxkw1j5iyzy42khxw0lh0j3zkz4kkh0yy3yj0w52@localhost/app_xianzhushou')
     
 class TestingConfig(Config):
     TESTING = True
-    QLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    SQLALCHEMY_DATABASE_URI = (url)
     
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    SQLALCHEMY_DATABASE_URI = (url)
     
 config = {
-    'development' : DevelopmentConfig,
-    'testing' : TestingConfig,
-    'production' : ProductionConfig,
-    'default' : DevelopmentConfig
+    'development': DevelopmentConfig,
+    'testing': TestingConfig,
+    'production': ProductionConfig,
+
+    'default': DevelopmentConfig
 }
+    
