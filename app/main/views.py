@@ -13,7 +13,7 @@ from ..email import send_email
 def index():
     if request.method == 'POST':
         data = request.form.get('search','')
-        item = Item.query.filter_by(name = data).all()
+        item = Item.query.filter(Item.name.like('%'+data+'%')).all()
         if item:
             return render_template('myindex.html' , items = item)
         else:
