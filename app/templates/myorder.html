@@ -1,0 +1,35 @@
+{% extends "mybase.html" %}
+<!--{% import "bootstrap/wtf.html" as wtf %}-->
+{% import "_macros.html" as macros %}
+
+{% block title %}闲{% endblock %}
+
+{% block page_content %}
+<div class="container">
+	<div class="row clearfix">
+		{% for item in items %}
+		<div class="col-md-4 column">
+			{% if item.buyer == user.username %}
+			<!--<button class="btn btn-link" type="button"><img alt="140x140" src="{{item.img1|safe}} " style="width:250px;height:250px;" /></button>-->
+			<div style="width:150px;height:150px;">
+			<a href={{url_for('.item',itemName = item.name)}}><img alt="140x140" src="{{item.img1|safe}} " style="height:100%;" /></a>
+			</div>
+			<h3>
+				{{item.name}}
+			</h3>
+			<p>
+				 {{item.detal}}
+			</p>
+            <a href="{{ url_for('main.cancel' , itemName = item.name ) }}"><button type="button" class="btn btn-block btn-danger btn-lg">取消订单</button></a>
+			{% endif %}
+		</div>
+		{% endfor %}
+	</div>
+</div>
+
+{% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, '.index') }}
+</div>
+{% endif %}
+{% endblock %}

@@ -7,12 +7,14 @@ from .forms import EditProfileForm, EditProfileAdminForm , ItemForm
 from .. import db
 from ..models import Item, Role, User
 from ..decorators import admin_required
+from ..email import send_email
 
 @main.route('/' , methods=['GET' , 'POST'])
 def index():
     if request.method == 'POST':
         data = request.form.get('search','')
-        item = Item.query.filter_by(name = data).all()
+        # item = Item.query.filter_by(name = data).all()
+        item = Item.query.filter(Item.name.like('%'+data+'%')).all()
         if item:
             return render_template('myindex.html' , items = item)
         else:
@@ -75,9 +77,15 @@ def buying(itemName):
 @login_required
 def bought(itemName):
     item = Item.query.filter_by(name=itemName).first_or_404()
+    app = current_app._get_current_object()
     item.buy = 'buying'
+    item.buyer = current_user.username
     db.session.add(item)
     db.session.commit()
+    send_email(app.config['FLASKY_ADMIN'], u'有新的订单',
+                   'buy/email/new_order', user=current_user , item = item)
+    send_email(current_user.email, u'您的订单',
+               'buy/email/your_order', user=current_user, item = item)
     flash(u'确认订单成功')
     return redirect(url_for('.index'))
     # if Item.query.filter_by(buy = itemName.buy).first():
@@ -86,6 +94,13 @@ def bought(itemName):
     # else:
     #     flash(u'系统出错')
     #     return redirect(url_for('.buy' , itemName = itemName))
+    
+@main.route('/my_order')
+@login_required
+def my_order():
+    items = Item.query.all()
+    user = current_user
+    return render_template('myorder.html' , items = items , user = user)
 
 @main.route('/user/<username>')
 def user(username):
@@ -186,10 +201,23 @@ def cancel(itemName):
     item = Item.query.filter_by(name = itemName).first_or_404()
     items = Item.query.all()
     item.buy = 'sell'
+    item.buyer = None
     db.session.add(item)
     db.session.commit()
     flash(u'取消订单成功')
     return render_template('finish.html' , items = items)
+
+@main.route('/user_cancel/<itemName>')
+@login_required
+def user_cancel(itemName):
+    item = Item.query.filter_by(name = itemName).first_or_404()
+    items = Item.query.all()
+    item.buy = 'sell'
+    item.buyer = None
+    db.session.add(item)
+    db.session.commit()
+    flash(u'取消订单成功')
+    return render_template('myorder.html' , items = items)
 
 # @main.route('/upload', methods=['GET', 'POST'])
 # @login_required
