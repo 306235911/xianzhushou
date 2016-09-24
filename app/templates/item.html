@@ -55,9 +55,25 @@
 							</div>
 						</div>
 						<div class="tab-pane active" id="panel-277315">
-							<p>
-								Howdy, I'm in Section 2.
-							</p>
+							<div class="comment-form">
+								{{ wtf.quick_form(form) }}
+							</div>
+								{% for comment in comments %}
+									<div class="comment-content">
+										<div class="comment-author"><a href="{{ url_for('.user', username=comment.author.username) }}"><h4>{{ comment.author.username }}</h4></a></div>
+										<div class="comment-body">
+											<p class="bg-primary">{{ comment.body }}</p>
+										</div>
+										<div class="comment-date"><p class="text-right"><small>{{ moment(comment.timestamp).fromNow() }}</small></p></div>
+									
+									</div>
+								{% endfor %}
+								</br>
+								</br>
+								没有更多问题啦
+							{% if current_user.is_authenticated %}
+
+							{% endif %}
 						</div>
 					</div>
 				</div>

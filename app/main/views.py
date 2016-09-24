@@ -3,9 +3,9 @@ from flask import render_template , session , redirect , url_for, abort, flash ,
 from flask_login import login_required, current_user
 from flask import request
 from . import main
-from .forms import EditProfileForm, EditProfileAdminForm , ItemForm
+from .forms import EditProfileForm, EditProfileAdminForm , ItemForm ,CommentForm
 from .. import db
-from ..models import Item, Role, User
+from ..models import Item, Role, User ,Comment
 from ..decorators import admin_required
 from ..email import send_email
 
@@ -32,8 +32,15 @@ def index():
                            pagination=pagination)
     # return render_template('myindex.html', items = items )
 
-@main.route('/item/<itemName>')
+@main.route('/item/<itemName>' , methods=['GET' , 'POST'])
 def item(itemName):
+    form = CommentForm()
+    item = Item.query.filter_by(name = itemName).first()
+    if form.validate_on_submit():
+        comment = Comment(body = form.body.data , author = current_user._get_current_object() , item_id = item.id)
+        db.session.add(comment)
+        flash(u'评论已发表')
+        return redirect(url_for('.item' , itemName = itemName))
     if request.method == 'POST':
         data = request.form.get('search','')
         item = Item.query.filter_by(name = data).all()
@@ -41,8 +48,9 @@ def item(itemName):
             return render_template('myindex.html' , items = item)
         else:
             return render_template('haveNot.html')
-    item = Item.query.filter_by(name = itemName).first()
-    return render_template('item.html' , itemName = item)
+    # item = Item.query.filter_by(name = itemName).first()
+    comments = item.comments.order_by(Comment.timestamp.asc())
+    return render_template('item.html' , itemName = item ,form = form , comments = comments)
 
 @main.route('/title/<titleName>')
 def title(titleName):

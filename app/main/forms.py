@@ -63,3 +63,8 @@ class ItemForm(Form):
     img3 = StringField(u'图片链接3', validators=[Required(), Length(0, 70)])
     title = StringField(u'类别', validators=[Required(), Length(1, 20)])
     submit = SubmitField(u'提交')
+    
+
+class CommentForm(Form):
+    body = TextAreaField(u"对于这件商品有什么想问的？" , validators=[Required()])
+    submit = SubmitField(u'提交')

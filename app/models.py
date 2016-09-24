@@ -6,6 +6,8 @@ from . import login_manager
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
 from datetime import datetime
+from markdown import markdown
+import bleach
 
 
 class Permission:
@@ -34,9 +36,27 @@ class Item(db.Model):
     title = db.Column(db.String(20))
     buy = db.Column(db.String(10), default='sell')
     buyer = db.Column(db.String(64))
+    comments = db.relationship('Comment' , backref = 'item' , lazy='dynamic')
 
     def __repr__(self):
         return '<Item %r>' % self.name
+
+class Comment(db.Model):
+    __tablename__ = 'comment'
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text)
+    body_html = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime , index = True , default = datetime.utcnow)
+    disable = db.Column(db.Boolean)
+    author_id = db.Column(db.Integer , db.ForeignKey('users.id'))
+    item_id = db.Column(db.Integer , db.ForeignKey('item.id'))
+#     
+#     @staticmethod
+#     def on_change_body(target , value , oldvalue , initiator):
+#         allowed_tag = ['a', 'addr' , 'acronym' , 'b' , 'code' , 'em' , 'i', 'strong']
+#         targe.body_html = bleach.linkify(bleach.clean(markdown(value , output_format='html') , tags=allowed_tag , strip=True))
+#         
+# # db.event.listen(Comment.body , 'set' , Comment.on_changed_body)
     
 
 class Role(db.Model):
@@ -84,6 +104,7 @@ class User(UserMixin, db.Model):
     tel = db.Column(db.String(20))
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
+    comments = db.relationship('Comment' , backref = 'author' , lazy='dynamic')
     
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
